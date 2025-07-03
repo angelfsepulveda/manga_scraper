@@ -38,13 +38,13 @@ def get_image_urls(driver, chapter_url):
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "div.reading-content img"))
         )
-        time.sleep(1)  # Espera 1 segundo después de abrir el capítulo
-        # Scroll sobre el contenedor reading-content para cargar todas las imágenes
+        time.sleep(1)  # Wait 1 second after opening the chapter
+        # Scroll over the reading-content container to load all images
         reading_content = driver.find_element(By.CSS_SELECTOR, "div.reading-content")
         last_height = driver.execute_script("return arguments[0].scrollHeight", reading_content)
         while True:
             driver.execute_script("arguments[0].scrollTo(0, arguments[0].scrollHeight);", reading_content)
-            time.sleep(1)  # Espera para que carguen las imágenes
+            time.sleep(1)  # Wait for images to load
             new_height = driver.execute_script("return arguments[0].scrollHeight", reading_content)
             if new_height == last_height:
                 break
@@ -54,7 +54,7 @@ def get_image_urls(driver, chapter_url):
         return []
     img_tags = driver.find_elements(By.CSS_SELECTOR, "div.reading-content img")
     print(f"[DEBUG] Found {len(img_tags)} images in reading-content")
-    # Convertir URLs relativas a absolutas
+    # Convert relative URLs to absolute
     img_urls = []
     for img in img_tags:
         src = img.get_attribute("src")
@@ -114,7 +114,7 @@ def images_to_pdf(images, output_path):
 
 def scrape_one_chapter(driver, title, chapter_url):
     manga_name = sanitize_filename(BASE_URL.rstrip('/').split('/')[-1])
-    # Extraer nombre del capítulo desde la URL
+    # Extract chapter name from the URL
     chapter_part = chapter_url.split(manga_name)[-1].replace("/", "").replace("chapter", "Chapter ") or "unknown_chapter"
     clean_title = sanitize_filename(chapter_part)
     chapter_folder = os.path.join(OUTPUT_DIR, f"{manga_name}_{clean_title}")
@@ -138,7 +138,7 @@ def main():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     options = Options()
     options.headless = True
-    service = Service(executable_path="/snap/bin/geckodriver")  # Cambia si tu path es diferente
+    service = Service(executable_path="/snap/bin/geckodriver")  # Change if your path is different
     driver = webdriver.Firefox(service=service, options=options)
     try:
         chapters = get_chapter_links(driver)

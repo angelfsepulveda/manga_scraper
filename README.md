@@ -1,36 +1,36 @@
 # MangaPlus Selenium Scraper
 
-Este proyecto es un scraper automatizado para descargar capítulos de manga desde [manhuaplus.com](https://manhuaplus.com) y guardarlos como archivos PDF, usando Python, Selenium y Pillow.
+This project is an automated scraper to download manga chapters from [manhuaplus.com](https://manhuaplus.com) and save them as PDF files, using Python, Selenium, and Pillow.
 
 ---
 
-## ¿Qué hace este script?
+## What does this script do?
 
-- **Navega automáticamente** por la página de un manga en manhuaplus.com.
-- **Extrae la lista de capítulos** disponibles.
-- **Abre cada capítulo** en un navegador Firefox controlado por Selenium.
-- **Hace scroll automático** para cargar todas las imágenes del capítulo.
-- **Descarga todas las imágenes** de cada capítulo.
-- **Genera un PDF** por cada capítulo, guardando el archivo en una carpeta con el nombre del manga y el capítulo.
-- **Elimina las imágenes temporales** después de crear el PDF.
+- **Automatically navigates** the manga page on manhuaplus.com.
+- **Extracts the list of available chapters.**
+- **Opens each chapter** in a Firefox browser controlled by Selenium.
+- **Performs automatic scrolling** to load all images in the chapter.
+- **Downloads all images** from each chapter.
+- **Generates a PDF** for each chapter, saving the file in a folder with the manga and chapter name.
+- **Deletes temporary images** after creating the PDF.
 
 ---
 
-## Requisitos
+## Requirements
 
 - Python 3.8+
 - [Selenium](https://pypi.org/project/selenium/)
 - [Pillow](https://pypi.org/project/Pillow/)
 - [requests](https://pypi.org/project/requests/)
-- Firefox instalado
-- [geckodriver](https://github.com/mozilla/geckodriver/releases) instalado y accesible en tu PATH
+- Firefox installed
+- [geckodriver](https://github.com/mozilla/geckodriver/releases) installed and accessible in your PATH
 
-Instala las dependencias con:
+Install the dependencies with:
 ```bash
 pip install selenium pillow requests
 ```
 
-En Ubuntu puedes instalar Firefox y geckodriver con:
+On Ubuntu you can install Firefox and geckodriver with:
 ```bash
 sudo apt update
 sudo apt install firefox firefox-geckodriver
@@ -38,63 +38,63 @@ sudo apt install firefox firefox-geckodriver
 
 ---
 
-## Uso rápido
+## Quick Usage
 
-1. **Configura la URL del manga**
-   - Edita la variable `BASE_URL` en `main.py` y pon la URL del manga que quieres descargar.
+1. **Set the manga URL**
+   - Edit the `BASE_URL` variable in `main.py` and set the URL of the manga you want to download.
 
-2. **Ejecuta el script**
+2. **Run the script**
    ```bash
    python main.py
    ```
 
-3. **Resultados**
-   - Se creará una carpeta `output/`.
-   - Dentro de `output/` habrá una subcarpeta por cada capítulo, con el nombre del manga y el capítulo.
-   - Dentro de cada subcarpeta estará el PDF del capítulo.
+3. **Results**
+   - An `output/` folder will be created.
+   - Inside `output/` there will be a subfolder for each chapter, named after the manga and chapter.
+   - Inside each subfolder will be the PDF of the chapter.
 
 ---
 
-## Explicación técnica (para programadores)
+## Technical Explanation (for programmers)
 
-- **Selenium** se usa para abrir Firefox en modo headless y navegar por la web como un usuario real.
-- El script extrae los enlaces de capítulos usando selectores CSS.
-- Para cada capítulo:
-  - Abre la página del capítulo.
-  - Espera a que las imágenes estén presentes.
-  - Hace scroll sobre el contenedor `.reading-content` para cargar imágenes lazy-load.
-  - Extrae todas las URLs de imágenes (`<img src=...>`), convirtiendo URLs relativas a absolutas.
-  - Descarga cada imagen usando `requests` con headers personalizados para evitar bloqueos.
-  - Guarda las imágenes en una carpeta temporal específica del capítulo.
-  - Usa Pillow para convertir las imágenes a un PDF.
-  - Elimina las imágenes temporales tras crear el PDF.
-- El nombre del PDF y la carpeta se genera a partir del nombre del manga y el capítulo, extraídos de la URL.
-
----
-
-## Explicación no técnica (para usuarios)
-
-- Este programa "simula" a una persona navegando por la web del manga.
-- Va capítulo por capítulo, abre la página, baja hasta el final para que se carguen todas las imágenes, y las descarga.
-- Junta todas las imágenes de cada capítulo en un solo archivo PDF, para que puedas leer el manga offline.
-- Todo se guarda ordenado en carpetas, y no necesitas hacer nada manualmente más que ejecutar el script.
+- **Selenium** is used to open Firefox in headless mode and browse the web like a real user.
+- The script extracts chapter links using CSS selectors.
+- For each chapter:
+  - Opens the chapter page.
+  - Waits for the images to be present.
+  - Scrolls over the `.reading-content` container to load lazy-loaded images.
+  - Extracts all image URLs (`<img src=...>`), converting relative URLs to absolute.
+  - Downloads each image using `requests` with custom headers to avoid blocks.
+  - Saves the images in a temporary folder specific to the chapter.
+  - Uses Pillow to convert the images to a PDF.
+  - Deletes the temporary images after creating the PDF.
+- The PDF and folder names are generated from the manga and chapter names, extracted from the URL.
 
 ---
 
-## Notas y recomendaciones
+## Non-technical Explanation (for users)
 
-- El script puede tardar dependiendo de la cantidad de capítulos y la velocidad de tu conexión.
-- Si el sitio cambia su estructura HTML, puede que necesites actualizar los selectores en el script.
-- No abuses del scraping: respeta los tiempos de espera y no descargues cientos de capítulos en poco tiempo.
-- Este script es solo para uso personal y educativo.
+- This program "simulates" a person browsing the manga website.
+- It goes chapter by chapter, opens the page, scrolls to the bottom so all images load, and downloads them.
+- It combines all the images from each chapter into a single PDF file, so you can read the manga offline.
+- Everything is saved in an organized way in folders, and you don't need to do anything manually except run the script.
 
 ---
 
-## ¿Preguntas o problemas?
+## Notes and Recommendations
 
-Si tienes dudas o el script deja de funcionar, revisa los mensajes de error en consola y asegúrate de que:
-- Tienes Firefox y geckodriver instalados.
-- La URL del manga es correcta.
-- El sitio no ha cambiado su estructura.
+- The script may take some time depending on the number of chapters and your connection speed.
+- If the site changes its HTML structure, you may need to update the selectors in the script.
+- Do not abuse scraping: respect wait times and do not download hundreds of chapters in a short time.
+- This script is for personal and educational use only.
 
-Puedes abrir un issue o pedir ayuda si necesitas soporte adicional. 
+---
+
+## Questions or Issues?
+
+If you have questions or the script stops working, check the error messages in the console and make sure that:
+- You have Firefox and geckodriver installed.
+- The manga URL is correct.
+- The site has not changed its structure.
+
+You can open an issue or ask for help if you need additional support. 
